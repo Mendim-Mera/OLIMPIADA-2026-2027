@@ -268,7 +268,7 @@ $("#submit").addEventListener("click",function(){
   }).then(function(res){
     return res.json();
   }).then(function(j){
-    if(!j||!j.ok)throw {code:"server"};
+    if(!j||!j.ok)throw {code:"server",msg:(j&&j.error)||"përgjigje e pavlefshme"};
   }).then(function(){
     pendingSid=null;
     $("#form-wrap").hidden=true;$("#done").hidden=false;
@@ -277,7 +277,8 @@ $("#submit").addEventListener("click",function(){
   }).catch(function(e){
     var m=e&&e.code==="noendpoint"?"Forma nuk është lidhur ende me tabelën. Njoftoni përgjegjësin.":
       "Dërgimi dështoi. Kontrolloni internetin dhe provoni përsëri; nëse përsëritet, njoftoni përgjegjësin.";
-    showMsg("err",m);
+    var why=e&&(e.msg||e.message)?String(e.msg||e.message):"";
+    showMsg("err",m,why&&e.code!=="noendpoint"?["Detaje teknike për përgjegjësin: "+why]:null);
   }).then(function(){btn.disabled=false;$("#submit-hint").textContent=""});
 });
 $("#again").addEventListener("click",function(){
