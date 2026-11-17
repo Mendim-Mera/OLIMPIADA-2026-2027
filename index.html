@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="sq">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Olimpiadat Kombëtare 2026-2027</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap">
+<style>
+/* Layout: one centered column with the submission form. */
+:root{
+  --bg:#f2f4f8; --surface:#ffffff; --ink:#142038; --muted:#58637a; --line:#d8deea;
+  --accent:#1c3d78; --accent-ink:#ffffff; --accent-soft:#e6edfa; --flag:#b3262d; --ok:#1f7a4d; --ok-soft:#e2f4ea; --warn-soft:#fbeaea;
+  --font-body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-display:"Source Serif 4",Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1522; --surface:#172133; --ink:#e7ebf4; --muted:#98a4bb; --line:#2a3750;
+  --accent:#8db0f2; --accent-ink:#0e1522; --accent-soft:#1d2c4a; --flag:#ef7a80; --ok:#6fd1a0; --ok-soft:#173326; --warn-soft:#3a1d21; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1522; --surface:#172133; --ink:#e7ebf4; --muted:#98a4bb; --line:#2a3750;
+  --accent:#8db0f2; --accent-ink:#0e1522; --accent-soft:#1d2c4a; --flag:#ef7a80; --ok:#6fd1a0; --ok-soft:#173326; --warn-soft:#3a1d21; color-scheme:dark}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.5;
+  padding-block:0 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin:0 auto}
+header.top{padding-block:28px 18px;display:flex;flex-wrap:wrap;gap:16px 24px;align-items:flex-end;justify-content:space-between;border-bottom:3px solid var(--flag)}
+.kicker{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-family:var(--font-display);font-size:clamp(26px,4.4vw,38px);line-height:1.12;margin:4px 0 0;text-wrap:balance}
+nav.tabs{display:flex;gap:4px}
+nav.tabs a{padding:8px 14px;border-radius:6px;text-decoration:none;color:var(--muted);font-weight:600;border:1px solid transparent}
+nav.tabs a[aria-current="page"]{background:var(--surface);color:var(--ink);border-color:var(--line)}
+nav.tabs a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+main{padding-top:24px}
+section.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px;margin-bottom:20px}
+h2{font-family:var(--font-display);font-size:21px;margin:0 0 4px}
+.lead{color:var(--muted);margin:0 0 16px;max-width:65ch}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px 16px}
+label.f{display:flex;flex-direction:column;gap:4px;min-width:0}
+label.f>span{font-size:14px;font-weight:600}
+input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:9px 10px;width:100%;min-width:0}
+input::placeholder{color:var(--muted);opacity:.7}
+select:disabled{opacity:.55}
+[aria-invalid="true"]{border-color:var(--flag);background:var(--warn-soft)}
+.hint{font-size:13px;color:var(--muted)}
+.rows-head,.srow{display:grid;grid-template-columns:130px minmax(0,2.2fr) 110px 130px 120px 40px;gap:10px;align-items:end}
+.rows-head{font-size:13px;font-weight:600;color:var(--muted);padding-bottom:6px;border-bottom:1px solid var(--line);align-items:end}
+.srow{padding-block:10px;border-bottom:1px solid var(--line)}
+.srow label.f>span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.rm{height:40px;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:6px;font-size:20px;cursor:pointer;line-height:1}
+.rm:hover{color:var(--flag);border-color:var(--flag)}
+button.btn{font:inherit;font-weight:600;padding:10px 18px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+button.btn.ghost{background:transparent;color:var(--accent)}
+button.btn:disabled{opacity:.6;cursor:default}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px}
+.msg{padding:10px 12px;border-radius:6px;font-size:15px;margin-top:14px}
+.msg.err{background:var(--warn-soft);color:var(--ink);border:1px solid var(--flag)}
+.msg.ok{background:var(--ok-soft);border:1px solid var(--ok)}
+.msg ul{margin:4px 0 0;padding-left:20px}
+.done h2{color:var(--ok)}
+.sub-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.sub-tabs button{font:inherit;font-size:14px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.sub-tabs button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.sub-tabs .n{opacity:.7;font-variant-numeric:tabular-nums;margin-left:4px}
+.bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{font:inherit;padding:7px 14px;border:0;background:var(--surface);color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);font-weight:700}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:14.5px;font-variant-numeric:tabular-nums}
+th,td{padding:7px 10px;border:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--accent-soft);font-weight:700}
+td.num,th.num{text-align:right}
+tr.tot td{font-weight:700;background:var(--accent-soft)}
+tr.none td{color:var(--muted)}
+.title-row{font-family:var(--font-display);font-weight:700;margin:4px 0 2px}
+details{margin-top:14px}
+summary{cursor:pointer;font-weight:600}
+details p{margin:8px 0 0;color:var(--muted);font-size:14px}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+@media (max-width:800px){
+  .rows-head{display:none}
+  .srow{grid-template-columns:1fr 1fr;padding:12px;border:1px solid var(--line);border-radius:6px;margin-top:10px}
+  .srow label.f>span{position:static;width:auto;height:auto;clip:auto;white-space:normal}
+  .srow .f-name{grid-column:1/-1}
+  .rm{grid-column:1/-1;height:36px;font-size:15px}
+}
+@media (prefers-reduced-motion:no-preference){button.btn{transition:opacity .15s}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="kicker">Faza e parë · viti shkollor 2026-2027</div>
+      <h1>Olimpiadat Kombëtare</h1>
+    </div>
+  </header>
+
+  <main>
+    <!-- FORMA -->
+    <div id="view-forma">
+      <div id="form-wrap">
+        <section class="card">
+          <h2>Të dhënat e ZVA-së</h2>
+          <p class="lead">Plotësoni një formë për secilën lëndë që jepni. Çdo dërgim shtohet në tabelën e përbashkët, ndaj mos e dërgoni të njëjtën formë dy herë.</p>
+          <div class="grid2">
+            <label class="f"><span>Emri dhe mbiemri i mësuesit</span><input id="f-teacher" autocomplete="name" placeholder="p.sh. Elira Hoxha"></label>
+            <label class="f"><span>Lënda</span><select id="f-subject"><option value="">Zgjidh lëndën</option></select></label>
+            <label class="f"><span>DRAP</span><select id="f-drap"><option value="">Zgjidh DRAP-in</option></select></label>
+            <label class="f"><span>ZVA</span><select id="f-zva" disabled><option value="">Zgjidh fillimisht DRAP-in</option></select></label>
+            <label class="f"><span>Numri i nxënësve tuaj pjesëmarrës</span><input id="f-part" inputmode="numeric" placeholder="p.sh. 84"></label>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Nxënësit fitues</h2>
+          <p class="lead">Shkruani vetëm nxënësit tuaj fitues. Emrat shkruhen me shkronja jo kapitale dhe me shkronjat ë dhe ç. Nëse nuk keni nxënës fitues, lini rreshtin bosh.</p>
+          <div class="rows-head" aria-hidden="true">
+            <div>Institucioni arsimor</div><div>Emër mbiemër i nxënësit fitues</div><div id="h-klasa">Klasa</div><div>Pikët totale të testit</div><div>Pikët e nxënësit</div><div></div>
+          </div>
+          <div id="rows"></div>
+          <div class="actions">
+            <button type="button" class="btn ghost" id="add-row">+ Shto nxënës</button>
+          </div>
+        </section>
+
+        <div id="form-msg" role="alert" hidden></div>
+        <div class="actions">
+          <button type="button" class="btn" id="submit">Dërgo të dhënat</button>
+          <span class="hint" id="submit-hint"></span>
+        </div>
+      </div>
+
+      <section class="card done" id="done" hidden>
+        <h2>Të dhënat u dërguan</h2>
+        <p class="lead" id="done-text"></p>
+        <button type="button" class="btn" id="again">Plotëso një lëndë tjetër</button>
+      </section>
+    </div>
+
+  </main>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* Ngjitni këtu adresën e Google Apps Script (shihni README.md) */
+var ENDPOINT="https://script.google.com/macros/s/AKfycbzanpQWH4rtTYW95i5e4N_Li1LS9ascnEZB327sSE6kc5mRceSa9AWz5m_oZvTrRdvb/exec";
+var YEAR="2026-2027";
+var DRAP=[
+ {name:"DRAP Fier",zva:["Divjakë","Fier","Finiq-Dropull","Gjirokastër-Libohovë","Lushnjë","Mallakastër","Patos","Përmet-Këlcyrë","Roskovec","Sarandë-Delvinë-Konispol","Selenicë","Tepelenë-Memaliaj","Vlorë-Himarë"]},
+ {name:"DRAP Lezhë",zva:["Has","Kukës","Kurbin","Lezhë","Malësi e Madhe","Mirditë","Pukë","Shkodër","Tropojë","Vau Dejës"]},
+ {name:"DRAP Korçë",zva:["Belsh","Berat","Cërrik","Devoll","Dimal","Elbasan","Gramsh","Kolonjë","Korçë","Kuçovë","Librazhd","Maliq","Peqin","Përrenjas","Pogradec","Poliçan","Skrapar"]},
+ {name:"DRAP Durrës",zva:["Bulqizë","Dibër","Durrës","Klos","Krujë","Mat","Shijak"]},
+ {name:"DRAP Tiranë",zva:["Kamëz","Kavajë","Rrogozhinë","Tiranë","Vorë"]}
+];
+var AML=[10,11,12];
+var SUBJ=[
+ {id:"mat-amu",name:"Matematikë · AMU (klasat 8, 9)",short:"Matematikë AMU",lenda:"Matematikë",classes:[8,9],clsLabel:"Klasa 9, 8",sheet:"matematikë AMU",sum:"përmbledhëse AMU"},
+ {id:"mat-aml",name:"Matematikë · AML (klasat 10, 11, 12)",short:"Matematikë AML",lenda:"Matematikë",classes:AML,clsLabel:"Klasa 10, 11, 12",sheet:"matematikë AML",sum:"përmbledhëse matematikë AML"},
+ {id:"fizike",name:"Fizikë",short:"Fizikë",lenda:"Fizikë",classes:AML,clsLabel:"Klasa 10, 11, 12",sheet:"Fizikë",sum:"përmbledhëse Fizikë"},
+ {id:"kimi",name:"Kimi",short:"Kimi",lenda:"Kimi",classes:AML,clsLabel:"Klasa 10, 11, 12",sheet:"Kimi",sum:"përmbledhëse kimi"},
+ {id:"biologji",name:"Biologji",short:"Biologji",lenda:"Biologji",classes:AML,clsLabel:"Klasa 10, 11, 12",sheet:"Biologji",sum:"përmbledhëse biologji"},
+ {id:"informatike",name:"Informatikë",short:"Informatikë",lenda:"Informatikë",classes:AML,clsLabel:"Klasa 10, 11, 12",sheet:"Informatikë",sum:"përmbledhëse informatikë"},
+ {id:"gjuhe",name:"Gjuhë shqipe dhe letërsi",short:"Gjuhë letërsi",lenda:"Gjuhë shqipe dhe letërsi",classes:AML,clsLabel:"Klasa 10, 11, 12",sheet:"gjuhë letërsi",sum:"përmbledhëse gjuhë letërsi"},
+ {id:"histori",name:"Histori",short:"Histori",lenda:"Histori",classes:AML,clsLabel:"Klasa 10, 11, 12",sheet:"histori",sum:"përmbledhëse histori"},
+ {id:"gjeografi",name:"Gjeografi",short:"Gjeografi",lenda:"Gjeografi",classes:AML,clsLabel:"Klasa 10, 11, 12",sheet:"gjeografi",sum:"përmbledhëse gjeografi"}
+];
+var TOTAL_ZVA=DRAP.reduce(function(a,d){return a+d.zva.length},0);
+
+function $(s){return document.querySelector(s)}
+function esc(v){return String(v==null?"":v).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function slug(s){return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}
+function docId(subj,zva){return subj+"__"+slug(zva)}
+function num(v){var t=String(v==null?"":v).trim().replace(",",".");if(t===""||isNaN(Number(t)))return null;return Number(t)}
+function fmt(n){return n==null?"":String(n).replace(".",",")}
+function getSubj(id){return SUBJ.filter(function(s){return s.id===id})[0]}
+
+/* ---------- Form ---------- */
+var fTeacher=$("#f-teacher"),fSubject=$("#f-subject"),fDrap=$("#f-drap"),fZva=$("#f-zva"),fPart=$("#f-part"),rowsEl=$("#rows"),rowSeq=0,pendingSid=null;
+/* Opsionet e dukshme në formë (të dhënat e tjera mbeten në kod) */
+var ALLOW={drap:"DRAP Durrës",zva:"Dibër"};
+SUBJ.forEach(function(s){fSubject.add(new Option(s.name,s.id))});
+DRAP.filter(function(d){return d.name===ALLOW.drap}).forEach(function(d){fDrap.add(new Option(d.name,d.name))});
+
+function classOptions(sel,s,keep){
+  var cur=keep||sel.value;sel.innerHTML="";sel.add(new Option("Zgjidh",""));
+  (s?s.classes:[8,9,10,11,12]).forEach(function(c){sel.add(new Option(String(c),String(c)))});
+  if(cur&&Array.prototype.some.call(sel.options,function(o){return o.value===cur}))sel.value=cur;
+}
+function addRow(){
+  rowSeq++;var n=rowSeq;
+  var r=document.createElement("div");r.className="srow";
+  r.innerHTML='<label class="f"><span>Institucioni arsimor</span><select id="r'+n+'-inst" class="r-inst"><option value="Publik">Publik</option><option value="Privat">Privat</option></select></label>'+
+   '<label class="f f-name"><span>Emër mbiemër i nxënësit fitues</span><input id="r'+n+'-name" class="r-name" autocomplete="off" placeholder="p.sh. Arben Hoxha"></label>'+
+   '<label class="f"><span>Klasa</span><select id="r'+n+'-klasa" class="r-klasa"></select></label>'+
+   '<label class="f"><span>Pikët totale të testit</span><input id="r'+n+'-total" class="r-total" inputmode="decimal" placeholder="p.sh. 100"></label>'+
+   '<label class="f"><span>Pikët e nxënësit</span><input id="r'+n+'-pts" class="r-pts" inputmode="decimal" placeholder="p.sh. 87,5"></label>'+
+   '<button type="button" class="rm" aria-label="Hiq këtë nxënës" title="Hiq">×</button>';
+  classOptions(r.querySelector(".r-klasa"),getSubj(fSubject.value));
+  r.querySelector(".r-name").addEventListener("blur",function(e){
+    var v=e.target.value.trim();
+    if(v&&v===v.toUpperCase()&&v!==v.toLowerCase()){e.target.value=v.toLowerCase().replace(/(^|[\s-])(\p{L})/gu,function(m,a,b){return a+b.toUpperCase()})}
+  });
+  r.querySelector(".rm").addEventListener("click",function(){
+    if(rowsEl.children.length>1){r.remove()}else{r.querySelectorAll("input").forEach(function(i){i.value=""});r.querySelector(".r-klasa").value=""}
+  });
+  rowsEl.appendChild(r);return r;
+}
+fSubject.addEventListener("change",function(){
+  var s=getSubj(fSubject.value);
+  $("#h-klasa").textContent=s?s.clsLabel:"Klasa";
+  rowsEl.querySelectorAll(".r-klasa").forEach(function(sel){classOptions(sel,s)});
+});
+fDrap.addEventListener("change",function(){
+  fZva.innerHTML="";
+  var d=DRAP.filter(function(x){return x.name===fDrap.value})[0];
+  if(!d){fZva.add(new Option("Zgjidh fillimisht DRAP-in",""));fZva.disabled=true;return}
+  fZva.add(new Option("Zgjidh ZVA-në",""));d.zva.filter(function(z){return z===ALLOW.zva}).forEach(function(z){fZva.add(new Option(z,z))});fZva.disabled=false;fZva.value=ALLOW.zva;
+});
+$("#add-row").addEventListener("click",function(){var r=addRow();r.querySelector(".r-name").focus()});
+fDrap.value=ALLOW.drap;fDrap.dispatchEvent(new Event("change"));
+addRow();
+
+function showMsg(kind,title,list){
+  var box=$("#form-msg");box.hidden=false;box.className="msg "+kind;
+  box.innerHTML="<strong>"+esc(title)+"</strong>"+(list&&list.length?"<ul>"+list.map(function(x){return"<li>"+esc(x)+"</li>"}).join("")+"</ul>":"");
+}
+function mark(el,bad){if(bad)el.setAttribute("aria-invalid","true");else el.removeAttribute("aria-invalid")}
+
+$("#submit").addEventListener("click",function(){
+  var errs=[],btn=this;
+  var teacher=fTeacher.value.trim().replace(/\s+/g," ");
+  var tBad=teacher.split(" ").length<2||teacher.length>80;
+  mark(fTeacher,tBad);if(tBad)errs.push("Shkruani emrin dhe mbiemrin e mësuesit.");
+  var s=getSubj(fSubject.value);
+  mark(fSubject,!s);if(!s)errs.push("Zgjidhni lëndën.");
+  mark(fDrap,!fDrap.value);if(!fDrap.value)errs.push("Zgjidhni DRAP-in.");
+  mark(fZva,!fZva.value);if(!fZva.value)errs.push("Zgjidhni ZVA-në.");
+  var part=num(fPart.value);
+  var partBad=part==null||part<0||Math.floor(part)!==part;
+  mark(fPart,partBad);if(partBad)errs.push("Shkruani numrin e nxënësve pjesëmarrës (numër i plotë).");
+  var students=[];
+  Array.prototype.forEach.call(rowsEl.children,function(r,i){
+    var f={inst:r.querySelector(".r-inst"),name:r.querySelector(".r-name"),klasa:r.querySelector(".r-klasa"),total:r.querySelector(".r-total"),pts:r.querySelector(".r-pts")};
+    var name=f.name.value.trim().replace(/\s+/g," "),total=num(f.total.value),pts=num(f.pts.value);
+    var empty=!name&&!f.klasa.value&&f.total.value.trim()===""&&f.pts.value.trim()==="";
+    [f.name,f.klasa,f.total,f.pts].forEach(function(x){mark(x,false)});
+    if(empty)return;
+    var lbl="Nxënësi "+(i+1)+": ",bad=false;
+    if(!name||name.split(" ").length<2){mark(f.name,true);errs.push(lbl+"shkruani emrin dhe mbiemrin.");bad=true}
+    if(!f.klasa.value){mark(f.klasa,true);errs.push(lbl+"zgjidhni klasën.");bad=true}
+    if(total==null||total<=0){mark(f.total,true);errs.push(lbl+"shkruani pikët totale të testit.");bad=true}
+    if(pts==null||pts<0){mark(f.pts,true);errs.push(lbl+"shkruani pikët e nxënësit.");bad=true}
+    else if(total!=null&&pts>total){mark(f.pts,true);errs.push(lbl+"pikët e nxënësit janë më të mëdha se pikët totale.");bad=true}
+    if(!bad)students.push({inst:f.inst.value,name:name,klasa:Number(f.klasa.value),total:total,pts:pts});
+  });
+  if(students.length>part&&!partBad){mark(fPart,true);errs.push("Nxënësit fitues janë më shumë se nxënësit pjesëmarrës.")}
+  if(errs.length){showMsg("err","Kontrolloni këto fusha para dërgimit:",errs);return}
+  $("#form-msg").hidden=true;btn.disabled=true;$("#submit-hint").textContent="Duke dërguar…";
+  if(!pendingSid)pendingSid=Date.now().toString(36)+Math.random().toString(36).slice(2,10);
+  var payload={sid:pendingSid,teacher:teacher,subject:s.id,drap:fDrap.value,zva:fZva.value,participants:part,students:students};
+  Promise.resolve().then(function(){
+    if(!ENDPOINT||ENDPOINT.indexOf("PASTE_")===0)throw {code:"noendpoint"};
+    return fetch(ENDPOINT,{method:"POST",body:JSON.stringify({data:payload})});
+  }).then(function(res){
+    return res.json();
+  }).then(function(j){
+    if(!j||!j.ok)throw {code:"server"};
+  }).then(function(){
+    pendingSid=null;
+    $("#form-wrap").hidden=true;$("#done").hidden=false;
+    $("#done-text").textContent=teacher+" · "+s.name+" · "+fZva.value+": "+students.length+" nxënës fitues nga "+part+" pjesëmarrës u shtuan në tabelë.";
+    window.scrollTo(0,0);
+  }).catch(function(e){
+    var m=e&&e.code==="noendpoint"?"Forma nuk është lidhur ende me tabelën. Njoftoni përgjegjësin.":
+      "Dërgimi dështoi. Kontrolloni internetin dhe provoni përsëri; nëse përsëritet, njoftoni përgjegjësin.";
+    showMsg("err",m);
+  }).then(function(){btn.disabled=false;$("#submit-hint").textContent=""});
+});
+$("#again").addEventListener("click",function(){
+  $("#done").hidden=true;$("#form-wrap").hidden=false;
+  fPart.value="";fSubject.value="";fSubject.dispatchEvent(new Event("change"));
+  rowsEl.innerHTML="";addRow();$("#form-msg").hidden=true;
+  [fTeacher,fSubject,fDrap,fZva,fPart].forEach(function(x){mark(x,false)});
+});
+
+})();
+</script>
+</body>
+</html>
